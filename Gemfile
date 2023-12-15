@@ -29,6 +29,9 @@ gem "jbuilder"
 # Debugger
 gem 'pry', '~> 0.14.2'
 
+# Implemenent Authentication usign Devise
+gem 'devise', '~> 4.9', '>= 4.9.3'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
