@@ -1,0 +1,34 @@
+<h1>Book Event</h1>
+<div>
+  <%= @event.title %>
+</div>
+<%= form_with(model: [@event, @booking]) do |form| %>
+  <% if @booking.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+
+      <ul>
+        <% @booking.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.text_field :email %>
+  </div>
+
+  <%= form.hidden_field :event_id, value: @event.id %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+

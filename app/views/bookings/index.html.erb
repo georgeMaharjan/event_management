@@ -1,0 +1,19 @@
+<h1>Bookings</h1>
+<% @bookings.each do |booking| %>
+  <p>
+    <strong>Event:</strong>
+    <%= booking.event.title %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= booking.name %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= booking.email %>
+  </p>
+
+  <p>======================================================</p>
+<% end %>
