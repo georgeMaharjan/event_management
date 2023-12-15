@@ -1,8 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @event %>
-<%= button_to "Register", @event, method: :delete %>
-
+<%= link_to "book", new_event_booking_path(@event) %>
 
 <% if user_signed_in? %>
   <div>
