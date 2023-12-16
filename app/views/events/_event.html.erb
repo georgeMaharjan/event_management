@@ -1,27 +1,10 @@
-<div id="<%= dom_id event %>">
-  <p>
-    <strong>Title:</strong>
-    <%= event.title %>
-  </p>
-
-  <p>
-    <strong>Date:</strong>
-    <%= event.date %>
-  </p>
-
-  <p>
-    <strong>Location:</strong>
-    <%= event.location %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= event.description %>
-  </p>
-
-  <p>
-    <strong>Status:</strong>
-    <%= event.status %>
-  </p>
-
-</div>
+<tr id="<%= dom_id event %>">
+  <td><%= event.title %></td>
+  <td><%= event.date %></td>
+  <td><%= event.location %></td>
+  <td><%= event.description %></td>
+  <td><%= event.status %></td>
+  <td>
+    <%= button_to "Book", event_bookings_path(event_id: event.id, user_id: current_user.id), method: :post %>
+  </td>
+</tr>

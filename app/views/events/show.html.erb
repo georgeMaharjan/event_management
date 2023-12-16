@@ -1,12 +1,24 @@
 <p style="color: green"><%= notice %></p>
-
-<%= render @event %>
-<%= link_to "book", new_event_booking_path(@event) %>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @event %>
+  </tbody>
+</table>
 
 <% if user_signed_in? %>
   <div>
-    <%= link_to "Edit this event", edit_event_path(@event) %> |
-    <%= link_to "Back to events", events_path %>
+  <%= link_to "Edit this event", edit_event_path(@event) %> |
+    <%= button_to "Back to events", events_path, method: :get %>
 
     <%= button_to "Destroy this event", @event, method: :delete %>
   </div>
