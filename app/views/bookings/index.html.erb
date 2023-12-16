@@ -1,24 +1,31 @@
+<% if can? (:create, Event) %>
 <h1>Bookings</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Event</th>
-      <th>Date</th>
-      <th>Name</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @bookings.each do |booking| %>
-      <%= render booking %>
-    <td>
-      <%= booking.user.name %>
-    </td>
+  <% unless @bookings.empty %>
+    <table>
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bookings.each do |booking| %>
+          <%= render booking %>
+        <td>
+          <%= booking.user.name %>
+        </td>
 
-    <td>
-      <%= booking.user.email %>
-    </td>
-    <% end %>
-  </tbody>
-</table>
+        <td>
+          <%= booking.user.email %>
+        </td>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+      <h4>no events available currently</h4>
+  <% end %>
+
 <%= button_to "Back to events", events_path, method: :get %>
+<% end %>
