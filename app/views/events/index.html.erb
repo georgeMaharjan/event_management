@@ -1,15 +1,29 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Events</h1>
-
-<div id="events">
-  <% @events.each do |event| %>
-    <%= render event %>
-    <p>
-      <%= link_to "Show this event", event %>
-    </p>
-  <% end %>
-</div>
 <% if user_signed_in? %>
-  <%= link_to "New event", new_event_path %>
+  <p style="color: green"><%= notice %></p>
+  <h1>Events</h1>
+  <div id="events">
+    <p>Welcome, <%= current_user.name %></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @events.each do |event| %>
+          <%= render event %>
+          <td><%= button_to "Show", event, method: :get %></td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <p>======================================================</p>
+  <%= button_to 'Your Bookings', user_bookings_path, method: :get %>
+  <%= button_to 'All Bookings', bookings_path, method: :get %>
+  <%= button_to "New event", new_event_path, method: :get %>
 <% end %>
