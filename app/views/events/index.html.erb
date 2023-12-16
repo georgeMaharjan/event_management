@@ -1,35 +1,44 @@
 <% if user_signed_in? %>
   <p style="color: green"><%= notice %></p>
+  <p style="color: red"><%= alert %></p>
   <h1>Events</h1>
   <div id="events">
     <p>Welcome, <%= current_user.name %></p>
-    <%= form_tag(events_path, method: :get) do %>
-      <%= text_field_tag :title, params[:title], placeholder: 'Search by title' %>
-      <%= select_tag :location, options_for_select(Event.pluck(:location).uniq, params[:location]), prompt: 'Filter by location' %>
-      <%= select_tag :status, options_for_select(Event.statuses.keys, params[:status]), prompt: 'Filter by status' %>
-      <%= submit_tag 'Search and Filter' %>
+    <%unless @events.empty?%>
+    <div>
+      <%= form_tag(events_path, method: :get) do %>
+        <%= text_field_tag :title, params[:title], placeholder: 'Search by title' %>
+        <%= select_tag :location, options_for_select(Event.pluck(:location).uniq, params[:location]), prompt: 'Filter by location' %>
+        <%= select_tag :status, options_for_select(Event.statuses.keys, params[:status]), prompt: 'Filter by status' %>
+        <%= submit_tag 'Search and Filter' %>
+      <% end %>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @events.each do |event| %>
+            <%= render event %>
+            <td><%= button_to "Show", event, method: :get %></td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% else %>
+      <h4>no events available currently</h4>
     <% end %>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Date</th>
-          <th>Location</th>
-          <th>Description</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @events.each do |event| %>
-          <%= render event %>
-          <td><%= button_to "Show", event, method: :get %></td>
-        <% end %>
-      </tbody>
-    </table>
   </div>
   <p>======================================================</p>
   <%= button_to 'Your Bookings', user_bookings_path, method: :get %>
-  <%= button_to 'All Bookings', bookings_path, method: :get %>
-  <%= button_to "New event", new_event_path, method: :get %>
+  <% if can?(:create, Event) %>
+    <%= button_to 'All Bookings', bookings_path, method: :get %>
+    <%= button_to "New event", new_event_path, method: :get %>
+  <% end %>
 <% end %>
