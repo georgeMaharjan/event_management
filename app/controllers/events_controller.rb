@@ -5,6 +5,15 @@ class EventsController < ApplicationController
   # GET /events or /events.json
   def index
     @events = Event.all
+
+    # Apply search by title
+    @events = @events.where('title LIKE ?', "%#{params[:title]}%") if params[:title].present?
+
+    # Apply filter by location
+    @events = @events.where(location: params[:location]) if params[:location].present?
+
+    # Apply filter by status
+    @events = @events.where(status: params[:status]) if params[:status].present?
   end
 
   # GET /events/1 or /events/1.json

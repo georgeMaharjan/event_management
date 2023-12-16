@@ -3,6 +3,12 @@
   <h1>Events</h1>
   <div id="events">
     <p>Welcome, <%= current_user.name %></p>
+    <%= form_tag(events_path, method: :get) do %>
+      <%= text_field_tag :title, params[:title], placeholder: 'Search by title' %>
+      <%= select_tag :location, options_for_select(Event.pluck(:location).uniq, params[:location]), prompt: 'Filter by location' %>
+      <%= select_tag :status, options_for_select(Event.statuses.keys, params[:status]), prompt: 'Filter by status' %>
+      <%= submit_tag 'Search and Filter' %>
+    <% end %>
     <table>
       <thead>
         <tr>
