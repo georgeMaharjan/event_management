@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   get '/bookings', to: 'bookings#index'
+  get '/user-bookings', to: 'bookings#user_bookings', as: 'user_bookings'
   devise_for :users
   resources :events do
-    resources :bookings, only: [:new, :create]
+    resources :bookings, only: [:create]
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
