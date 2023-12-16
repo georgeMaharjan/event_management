@@ -3,24 +3,18 @@ class BookingsController < ApplicationController
     @bookings = Booking.all
   end
 
-  def new
-    @event = Event.find(params[:event_id])
-    @booking = @event.bookings.build
+  def user_bookings
+    @bookings = Booking.where(user_id: current_user.id)
   end
 
   def create
-    @event = Event.find(params[:booking][:event_id])
-    @booking = @event.bookings.build(booking_params)
+    @event = Event.find(params[:event_id])
+    @user = User.find(params[:user_id])
+    @booking = Booking.new(event_id: @event.id, user_id: @user.id)
     if @booking.save
       redirect_to root_path
     else
       render :new
     end
-  end
-
-  private
-
-  def booking_params
-    params.require(:booking).permit(:name, :email)
   end
 end
