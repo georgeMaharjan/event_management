@@ -4,18 +4,13 @@ require './spec/support/shared_context/user_not_authorized_context.rb'
 
 RSpec.describe BookingsController, type: :controller do
   let(:user) { create(:user) }
-
   let(:user1) { create(:user, name: 'user 1') }
   let(:user2) { create(:user, name: 'user 2') }
-
   let(:event1) { create(:event, title: 'Event 1', location: 'Location 1', status: :upcoming) }
   let(:event2) { create(:event, title: 'Event 2', location: 'Location 2', status: :registered) }
-
   let(:booking1) { create(:booking, user_id: user1.id, event_id: event1.id) }
   let(:booking2) { create(:booking, user_id: user2.id, event_id: event2.id) }
-
   let(:admin) { create(:user, role: :admin) }
-
   let(:ability) { Ability.new(admin) }
 
   describe 'GET #index' do
@@ -57,22 +52,22 @@ RSpec.describe BookingsController, type: :controller do
   describe 'POST #create' do
     context 'when user is logged in' do
       before do
-        sign_in admin
+        sign_in user1
       end
 
       context 'with valid params' do
         it 'creates a new booking' do
-          post :create, params: { event_id: event1.id, user_id: admin.id }
+          post :create, params: { event_id: event1.id, user_id: user1.id }
           expect(response).to redirect_to(user_bookings_path)
           expect(flash[:notice]).to eq("You have booked #{event1.title}")
         end
       end
 
       context 'when user has already booked the event' do
-        let!(:existing_booking) { create(:booking, event: event1, user: admin) }
+        let!(:existing_booking) { create(:booking, event: event1, user: user1) }
 
         it 'redirects with an alert' do
-          post :create, params: { event_id: event1.id, user_id: admin.id }
+          post :create, params: { event_id: event1.id, user_id: user1.id }
           expect(response).to redirect_to(root_path)
           expect(flash[:alert]).to eq('You have already booked this event.')
         end
@@ -81,7 +76,7 @@ RSpec.describe BookingsController, type: :controller do
 
     context 'when no user is logged in' do
       include_context 'when user is not signed in'
-      let(:perform_action) { post :create, params: { event_id: event1.id, user_id: admin.id } }
+      let(:perform_action) { post :create, params: { event_id: event1.id, user_id: user1.id } }
     end
   end
 
@@ -92,9 +87,6 @@ RSpec.describe BookingsController, type: :controller do
       end
 
       it 'assigns user bookings to @bookings' do
-        puts "User ID: #{user1.id}"
-        puts "Booking IDs: #{booking1.user_id}"
-
         get :user_bookings
         expect(assigns(:bookings)).to eq([booking1])
         expect(response).to render_template(:user_bookings)
