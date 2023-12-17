@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get '/bookings', to: 'bookings#index'
   get '/user-bookings', to: 'bookings#user_bookings', as: 'user_bookings'
+  delete "/booking/:id", to: 'bookings#destroy', as:'delete_booking'
   devise_for :users
   resources :events do
     resources :bookings, only: [:create]
