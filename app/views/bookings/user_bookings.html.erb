@@ -1,19 +1,23 @@
 <h1>Your Bookings</h1>
+<p style="color: green"><%= notice %></p>
 <% unless @bookings.empty? %>
   <table>
     <thead>
       <tr>
         <th>Event</th>
         <th>Date</th>
+        <th>action</th>
       </tr>
     </thead>
     <tbody>
       <% @bookings.each do |booking| %>
-        <%= render booking %>
+        <tr>
+          <%= render partial: 'booking', locals: { booking: booking } %>
+        </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
-  <h4>no events available currently</h4>
+  <h4>No events available currently</h4>
 <% end %>
 <%= button_to "Back to events", events_path, method: :get %>
