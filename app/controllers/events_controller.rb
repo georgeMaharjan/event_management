@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: %i[edit update destroy]
+  before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /events or /events.json
   def index
@@ -23,7 +24,6 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @event = Event.new
-    authorize! :create, @event
   end
 
   # GET /events/1/edit
