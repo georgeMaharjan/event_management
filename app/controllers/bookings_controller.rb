@@ -8,7 +8,7 @@ class BookingsController < ApplicationController
   end
 
   def user_bookings
-    @bookings = Booking.where(user_id: current_user.id)
+    @bookings = current_user.bookings
   end
 
   def create

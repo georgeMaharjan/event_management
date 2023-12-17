@@ -3,34 +3,22 @@ class EventsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
 
-  # GET /events or /events.json
   def index
     @events = Event.all
 
-    # Apply search by title
-    @events = @events.where('title LIKE ?', "%#{params[:title]}%") if params[:title].present?
-
-    # Apply filter by location
-    @events = @events.where(location: params[:location]) if params[:location].present?
-
-    # Apply filter by status
-    @events = @events.where(status: params[:status]) if params[:status].present?
+    apply_search_and_filters
   end
 
-  # GET /events/1 or /events/1.json
   def show
   end
 
-  # GET /events/new
   def new
     @event = Event.new
   end
 
-  # GET /events/1/edit
   def edit
   end
 
-  # POST /events or /events.json
   def create
     @event = Event.new(event_params)
 
@@ -45,7 +33,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /events/1 or /events/1.json
   def update
     respond_to do |format|
       if @event.update(event_params)
@@ -58,7 +45,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1 or /events/1.json
   def destroy
     @event.destroy!
 
@@ -69,13 +55,17 @@ class EventsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def event_params
       params.require(:event).permit(:title, :date, :location, :description, :status)
+    end
+
+    def apply_search_and_filters
+      @events = @events.where('title LIKE ?', "%#{params[:title]}%") if params[:title].present?
+      @events = @events.where(location: params[:location]) if params[:location].present?
+      @events = @events.where(status: params[:status]) if params[:status].present?
     end
 end

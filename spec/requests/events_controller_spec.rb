@@ -197,7 +197,7 @@ RSpec.describe EventsController, type: :controller do
       it 'updates a new event and redirects to the show page' do
         put :update, params: updated_event
         event1.reload
-        expect(event1.title).to eq('updated title') # Adjusted to match the parameter
+        expect(event1.title).to eq('updated title')
         expect(response).to redirect_to(event_path(event1))
         expect(flash[:notice]).to eq('Event was successfully updated.')
       end
