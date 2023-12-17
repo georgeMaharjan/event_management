@@ -8,6 +8,8 @@ RSpec.describe EventsController, type: :controller do
   let(:event1) { create(:event, title: 'Event 1', location: 'Location 1', status: :upcoming) }
   let(:event2) { create(:event, title: 'Event 2', location: 'Location 2', status: :registered) }
 
+  let(:ability) { Ability.new(admin) }
+
   before do
     sign_in user
   end
@@ -78,8 +80,6 @@ RSpec.describe EventsController, type: :controller do
 
   describe 'GET #new' do
     context 'when admin is signed in' do
-      let(:ability) { Ability.new(admin) }
-
       before do
         allow(Ability).to receive(:new).with(admin).and_return(ability)
       end
@@ -112,8 +112,6 @@ RSpec.describe EventsController, type: :controller do
 
   describe 'POST #create' do
     context 'when admin is signed in' do
-      let(:ability) { Ability.new(admin) }
-
       before do
         allow(Ability).to receive(:new).with(admin).and_return(ability)
       end
@@ -149,8 +147,6 @@ RSpec.describe EventsController, type: :controller do
 
   describe 'GET #edit' do
     context 'when admin is signed in' do
-      let(:ability) { Ability.new(admin) }
-
       before do
         allow(Ability).to receive(:new).with(admin).and_return(ability)
       end
@@ -190,8 +186,6 @@ RSpec.describe EventsController, type: :controller do
     end
 
     context 'when admin is signed in' do
-      let(:ability) { Ability.new(admin) }
-
       before do
         sign_in admin
       end
@@ -229,8 +223,6 @@ RSpec.describe EventsController, type: :controller do
 
   describe 'DELETE #destroy' do
     context 'when admin is signed in' do
-      let(:ability) { Ability.new(admin) }
-
       before do
           allow(Ability).to receive(:new).with(admin).and_return(ability)
       end
